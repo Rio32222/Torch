@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Lightlamb button -->
+    <dimen name="lightlamb_button_width">50dp</dimen>
+    <dimen name="lightlamb_button_height">10dp</dimen>
+    <dimen name="lightlamb_button_corners">4dp</dimen>
+</resources>
