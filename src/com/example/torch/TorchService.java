@@ -19,6 +19,8 @@ import android.hardware.Camera;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
 import android.widget.Filter;
 import android.widget.RemoteViews;
@@ -67,22 +69,30 @@ public class TorchService extends Service {
 	
 	public void setMsgNotification(){
 		NotificationManager mManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification mNotify = new Notification();//(R.drawable.notify_torch, "通知", System.currentTimeMillis());
-		mNotify.icon = R.drawable.notify_torch;
+		
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+		
+		Intent intent = new Intent(this, TorchService.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		mBuilder.setContentTitle("手电筒")
+		.setSmallIcon(R.drawable.notify_torch)
+		.setTicker("打开手电筒")
+		.setContentIntent(pendingIntent);
+		
+		Notification mNotify = mBuilder.build();
+		
 		//放置到正在运行状态栏
 		mNotify.flags = Notification.FLAG_ONGOING_EVENT;
 		
-		RemoteViews mContentView = new RemoteViews(getPackageName(), R.drawable.notify_torch);
-		mContentView.setTextViewText(R.drawable.notify_torch, "手电筒");
+		//RemoteViews mContentView = new RemoteViews(getPackageName(), R.drawable.notify_torch);
+		//mContentView.setTextViewText(R.drawable.notify_torch, "手电筒");
 		
-		mNotify.contentView = mContentView;
+		//mNotify.contentView = mContentView;
 		
-		Intent intent = new Intent(this, TorchService.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		mNotify.contentIntent = contentIntent;
 		mManager.notify(NOTIFY_ID, mNotify);
 	}
-	
+
 	class TurnTorchBroadcast extends BroadcastReceiver{
 		public final String Tag = "TurnTorchBroadcast";
 		@Override

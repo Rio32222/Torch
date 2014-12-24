@@ -1,6 +1,6 @@
 package com.example.torch;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 	private final String Tag = "TorchActivity";
 	
 	private static Button  LightLambButton = null;
@@ -77,6 +77,4 @@ public class MainActivity extends ActionBarActivity {
 		super.onStop();
 		
 	}
-	
-	
 }
