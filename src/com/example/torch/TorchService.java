@@ -45,7 +45,6 @@ public class TorchService extends Service {
 		registerReceiver(new TurnTorchBroadcast(), new IntentFilter(TurnTorchBroast));
 		
 		checkRunnable = new CheckRunnable();
-		setMsgNotification();
 	}
 	
 	@Override
@@ -85,12 +84,12 @@ public class TorchService extends Service {
 		//放置到正在运行状态栏
 		mNotify.flags = Notification.FLAG_ONGOING_EVENT;
 		
-		//RemoteViews mContentView = new RemoteViews(getPackageName(), R.drawable.notify_torch);
-		//mContentView.setTextViewText(R.drawable.notify_torch, "手电筒");
-		
-		//mNotify.contentView = mContentView;
-		
 		mManager.notify(NOTIFY_ID, mNotify);
+	}
+	
+	public void cancelMsgNotification(){
+		NotificationManager mManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager.cancel(NOTIFY_ID);
 	}
 
 	class TurnTorchBroadcast extends BroadcastReceiver{
@@ -120,13 +119,14 @@ public class TorchService extends Service {
 			if(intent.getBooleanExtra("startCheck", false)){
 				if(Torch.getInstance().isOpened()){
 					if(checkRunnable != null && checkRunnable.isRunning() == false){
+						setMsgNotification();
 						checkRunnable.setDoCheck(true);
-						Log.d(Tag, Boolean.toString(checkRunnable.isRunning()));
 						new Thread(checkRunnable).start();
 					}
 				}
 			}else{
 				checkRunnable.setDoCheck(false);
+				cancelMsgNotification();
 			}
 		}
 	}
